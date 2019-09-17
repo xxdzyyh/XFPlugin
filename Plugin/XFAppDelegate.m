@@ -8,16 +8,6 @@
 
 #import "XFAppDelegate.h"
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-
-#import <UserNotifications/UserNotifications.h>
-
-@interface XFAppDelegate() <UNUserNotificationCenterDelegate>
-
-@end
-
-#endif
-
 @implementation XFAppDelegate
 
 - (NSArray *)plugins {
@@ -108,57 +98,6 @@
 }
 
 #pragma mark - 推送相关
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    for (XFPlugin *obj in [self plugins]) {
-        if ([obj respondsToSelector:@selector(application:didReceiveRemoteNotification:)]) {
-            [obj application:application didReceiveRemoteNotification:userInfo];
-        }
-    }
-}
-
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    for (XFPlugin *obj in [self plugins]) {
-        if ([obj respondsToSelector:@selector(application:didRegisterForRemoteNotificationsWithDeviceToken:)]) {
-            [obj application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-        }
-    }
-}
-
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-    for (XFPlugin *obj in [self plugins]) {
-        if ([obj respondsToSelector:@selector(application:didReceiveLocalNotification:)]) {
-            [obj application:application didReceiveLocalNotification:notification];
-        }
-    }
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    for (XFPlugin *obj in [self plugins]) {
-        if ([obj respondsToSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)]) {
-            [obj application:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
-        }
-    }
-}
-
-// iOS 10 新增回调 API
-// App 用户点击通知
-// App 用户选择通知中的行为
-// App 用户在通知中心清除消息
-// 无论本地推送还是远程推送都会走这个回调
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >=     __IPHONE_10_0
-- (void)xgPushUserNotificationCenter:(UNUserNotificationCenter *)center 
-      didReceiveNotificationResponse:(UNNotificationResponse *)response 
-               withCompletionHandler:(void (^)(void))completionHandler {
-   
-}
-
-// App 在前台弹通知需要调用这个接口
-- (void)xgPushUserNotificationCenter:(UNUserNotificationCenter *)center
-             willPresentNotification:(UNNotification *)notification 
-               withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
-}
-#endif
 
 #pragma mark - setter & getter 
 
