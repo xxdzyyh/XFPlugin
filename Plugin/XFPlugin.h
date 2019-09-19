@@ -26,4 +26,6 @@
 - (instancetype)initWithAppKey:(NSString *)appKey
                      appSecret:(NSString *)appSecret;
 
++ (NSString *)identifier;
+
 @end

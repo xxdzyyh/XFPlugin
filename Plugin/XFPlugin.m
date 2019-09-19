@@ -29,6 +29,12 @@
     return self;
 }
 
+#pragma mark - Public
+
++ (NSString *)identifier {
+    return NSStringFromClass([self class]);
+}
+
 #pragma mark - setter & getter
 
 - (NSString *)name {
